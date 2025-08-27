@@ -1,5 +1,3 @@
-version: '3.11'
-
 services:
   # PostgreSQL Database Service
   db:
@@ -24,14 +22,18 @@ services:
 
   # Django Backend Service
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: django_backend
     command: >
-      sh -c "python manage.py makemigrations &&
-             python manage.py migrate &&
-             python manage.py runserver 0.0.0.0:8000"
+      sh -c "
+      python manage.py makemigrations --noinput &&
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     volumes:
-      - .:/app
+      - ./backend:/app
       - media_volume:/app/media
     ports:
       - "8000:8000"
@@ -51,7 +53,9 @@ services:
 
   # Frontend Service
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: vite_frontend
     command: npm run dev -- --host 0.0.0.0
     volumes:
@@ -60,7 +64,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://backend:8000/api
+      - VITE_API_URL=http://localhost:8000/api 
     depends_on:
       - backend
     networks:
