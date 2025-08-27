@@ -1,0 +1,10 @@
+# Dépendances Node.js
+node_modules/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Migrations (dans le dossier api)
+api/migrations/
