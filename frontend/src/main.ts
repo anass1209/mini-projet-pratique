@@ -17,6 +17,8 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
+
+
 // --- HTML Structure ---
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = `
